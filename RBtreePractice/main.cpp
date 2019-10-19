@@ -211,6 +211,52 @@ public:
 		return true;
 	}
 
+	//判断是否是红黑树
+	bool IsRBTree() {
+		if (_header->_parent == _header) {
+			cout << "空树也是红黑树！！！" << endl;
+			return true;
+		}
+		//1.根节点是否是黑色的
+		if (_header->_parent->_color == RED) {
+			cout << "根节点必须是黑色的！！！" << endl;
+			return false;
+		}
+		//判断每条路径上的黑色节点数目是否相同
+		size_t count = 0;
+		pNode cur = _header->_parent;
+		while (cur) {
+			if (cur->_color == BLACK) {
+				++count;
+			}
+			cur = cur->_left;
+		}
+		size_t bc = 0;
+		return _IsRBTree(_header->_parent, bc, count);
+	}
+	bool _IsRBTree(pNode root, size_t bc, size_t count) {
+		//走到空时，判断黑色结点的数目是否相同
+		if (root == nullptr) {
+			if (bc != count) {
+				cout << "每条路径上的黑色结点数目必须相同！！！" << endl;
+				return false;
+			}
+			return true;
+		}
+
+		if (root->_color == BLACK) {
+			++bc;
+		}
+		//判断是否有连续的红色结点
+		pNode parent = root->_parent;
+		if (parent && parent->_color == root->_color && parent->_color == RED) {
+			cout << "不能有连续的红色节点！！！" << endl;
+			return false;
+		}
+		return _IsRBTree(root->_left, bc, count) &&
+			_IsRBTree(root->_right, bc, count);
+	}
+
     void _InOrder(pNode root) {
 		if (root == nullptr) {
 			return;
@@ -241,10 +287,6 @@ private:
 		}
 		return cur;
 	}
-
-
-
-
 private:
 	pNode _header;
 };
@@ -260,7 +302,7 @@ int main() {
 	rbt.Insert(make_pair(7,1));
 
 	rbt.InOrder();
-
+	cout << "\n" << rbt.IsRBTree() << endl;
 	system("pause");
 	return 0;
 }
