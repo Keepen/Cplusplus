@@ -1,0 +1,3 @@
+﻿  main.cpp
+c:\vs project\牛客\用两个栈实现队列\main.cpp(32): warning C4715: “Solution::pop”: 不是所有的控件路径都返回值
+  用两个栈实现队列.vcxproj -> C:\VS PROJECT\牛客\用两个栈实现队列\Debug\用两个栈实现队列.exe
